@@ -3,9 +3,9 @@ package com.company;
 import java.util.*;
 
 public class Row {
-    Map<Column, Object> values;
+    LinkedHashMap<Column, Object> values;
 
-    public Row(Map<Column, Object> values) {
+    public Row(LinkedHashMap<Column, Object> values) {
         this.values = values;
     }
 

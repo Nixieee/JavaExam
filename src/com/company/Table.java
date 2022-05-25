@@ -1,15 +1,16 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Table {
-    TreeSet<Column> listOfColumns = new TreeSet<>();
-    ArrayList<Row> rows = new ArrayList<>();
+    private final ArrayList<Column> listOfColumns = new ArrayList<>();
+    private final ArrayList<Row> rows = new ArrayList<>();
 
-    public void addColumns(Column column) {
+    public void addColumns(Column column) throws ColumnException{
+        if(this.listOfColumns.contains(column)){
+            throw new ColumnException("Column already exists!");
+        }else
         this.listOfColumns.add(column);
-
     }
 
     public void addRows(Row row) {
@@ -25,12 +26,56 @@ public class Table {
         throw new ColumnException("There is no such column!");
     }
 
-    public TreeSet<Column> getListOfColumns() {
+    public ArrayList<Column> getListOfColumns() {
         return listOfColumns;
     }
 
     public ArrayList<Row> getRows() {
         return rows;
+    }
+
+    public String describe(){
+        return listOfColumns.toString();
+    }
+
+    public String print(){
+        return rows.toString();
+    }
+
+    public LinkedHashSet<Row> select(int columnIndex,String value)throws Exception{
+        LinkedHashSet<Row> list = new LinkedHashSet<>();
+        Column column = listOfColumns.get(columnIndex);
+        for(Row r : rows)
+        {
+            if(r.values.containsKey(column)&&r.values.containsValue(value))
+            {
+                list.add(r);
+            }else throw new Exception("There is no such record in that column!");
+        }
+        return list;
+    }
+
+    public void update(int searchColumnIndex,String searchValue, int targetColumnIndex, String targetValue) throws Exception,IncorrectDataTypeException
+    {
+        Column searchColumn = listOfColumns.get(searchColumnIndex);
+        Column targetColumn = listOfColumns.get(targetColumnIndex);
+        for (Row r : rows)
+        {
+            try {
+                if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
+                    try {
+                        if (r.values.containsKey(targetColumn)) {
+                            if(DataValidation.validate(targetColumn, targetValue))
+                            r.values.replace(targetColumn, targetValue);
+                        }
+                    }catch (Exception e){
+                        throw new Exception("No such target column!");
+                    }
+                }
+            }catch (Exception e){
+                throw new Exception("No such search column and value!");
+            }
+        }
     }
 
     @Override

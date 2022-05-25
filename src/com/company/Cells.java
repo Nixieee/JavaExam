@@ -1,38 +1,17 @@
 package com.company;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.crypto.Data;
+import java.util.*;
 
 public class Cells {
-    Map<Column, Object> cells = new HashMap<>();
+    private final LinkedHashMap<Column, Object> cells = new LinkedHashMap<>();
 
     public void addCell(Column column,String value) throws IncorrectDataTypeException {
-        if(column.getTypeOfData().equals(TypeOfData.STRING))
-        {
+        if(DataValidation.validate(column,value))
             cells.put(column,value);
-        }
-        if(column.getTypeOfData().equals(TypeOfData.DOUBLE))
-        {
-            try {
-                Double val =  Double.valueOf(value);
-            } catch(Exception e) {
-                throw new IncorrectDataTypeException("Incorrect data type");
-            }
-            cells.put(column,value);
-
-        }
-        if(column.getTypeOfData().equals(TypeOfData.INTEGER))
-        {
-            try {
-                Integer val =  Integer.parseInt(value);
-            } catch(Exception e) {
-                throw new IncorrectDataTypeException("Incorrect data type");
-            }
-            cells.put(column,value);
-        }
     }
 
-    public Map<Column, Object> getCells() {
+    public LinkedHashMap<Column, Object> getCells() {
         return cells;
     }
 }

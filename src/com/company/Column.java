@@ -1,6 +1,8 @@
 package com.company;
 
-public class Column implements Comparable{
+import java.util.Objects;
+
+public class Column{
     private final String columnName;
     private final TypeOfData typeOfData;
 
@@ -19,16 +21,23 @@ public class Column implements Comparable{
     }
 
     @Override
-    public String toString() {
-        return "Column{" +
-                "columnName='" + columnName + '\'' +
-                ", typeOfData=" + typeOfData +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Column column = (Column) o;
+        return columnName.equals(column.columnName);
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.getColumnName().compareTo(((Column)o).getColumnName());
+    public int hashCode() {
+        return Objects.hash(columnName);
     }
+
+    @Override
+    public String toString() {
+        return "columnName='" + columnName +
+                ", typeOfData=" + typeOfData + "\n";
+    }
+
 }
 
