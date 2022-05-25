@@ -65,6 +65,7 @@ public class Table {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
                     try {
                         if (r.values.containsKey(targetColumn)) {
+                            //TODO:INCORRECT EXCEPTION
                             if(DataValidation.validate(targetColumn, targetValue))
                             r.values.replace(targetColumn, targetValue);
                         }
@@ -76,6 +77,20 @@ public class Table {
                 throw new Exception("No such search column and value!");
             }
         }
+    }
+    public void delete(int searchColumnIndex,String searchValue) throws Exception {
+        Column searchColumn = listOfColumns.get(searchColumnIndex);
+        ArrayList<Row> rowsToDelete = new ArrayList<>();
+        for (Row r : rows) {
+            try {
+                if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
+                    rowsToDelete.add(r);
+                }
+            } catch (Exception e) {
+                throw new Exception("No such row");
+            }
+        }
+        rows.removeAll(rowsToDelete);
     }
 
     @Override
