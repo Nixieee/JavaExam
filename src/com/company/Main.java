@@ -25,7 +25,7 @@ public class Main {
         row = new Row(newRow.getCells());
         table.addRows(row);
         Cells newRow1 = new Cells();
-        newRow1.addCell(table.getColumn("name"),"shopara" );
+        newRow1.addCell(table.getColumn("name"),"ivan" );
         newRow1.addCell(table.getColumn("surname"), "ivanov");
         newRow1.addCell(table.getColumn("age"), "34");
         row = new Row(newRow1.getCells());
@@ -34,7 +34,8 @@ public class Main {
         //System.out.println(table.describe());
         //System.out.println(table.select(1,"hui"));
         table.update(0,"ivan",2,"33");
-        table.delete(0,"shopara");
+        //table.delete(0,"shopara");
+        System.out.println(table.count(0,"shopara"));
         System.out.println(table.toString());
 
 

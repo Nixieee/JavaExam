@@ -93,6 +93,17 @@ public class Table {
         rows.removeAll(rowsToDelete);
     }
 
+    public int count(int searchColumnIndex,String searchValue) throws Exception {
+        Column searchColumn = listOfColumns.get(searchColumnIndex);
+        int count = 0;
+        for (Row r : rows) {
+                if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
+                    count++;
+                }
+        }
+        return count;
+    }
+
     @Override
     public String toString() {
         return "Table{" +
