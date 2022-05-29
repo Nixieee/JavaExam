@@ -1,10 +1,13 @@
 package com.company;
 
 public class DataValidation {
-    static public boolean validate(Column column,String value) throws IncorrectDataTypeException {
+    static public Object validate(Column column,String value) throws IncorrectDataTypeException {
+        if(value.isEmpty()){
+            return "NULL";
+        }
         if(column.getTypeOfData().equals(TypeOfData.STRING))
         {
-          return true;
+          return value;
         }
         else if(column.getTypeOfData().equals(TypeOfData.DOUBLE))
         {
@@ -13,7 +16,7 @@ public class DataValidation {
             } catch(Exception e) {
                 throw new IncorrectDataTypeException("Incorrect data type");
             }
-            return true;
+            return value;
         }
         else if(column.getTypeOfData().equals(TypeOfData.INTEGER))
         {
@@ -22,7 +25,8 @@ public class DataValidation {
             } catch(Exception e) {
                 throw new IncorrectDataTypeException("Incorrect data type");
             }
-           return true;
+           return value;
         }
-    return false;}
+    return "NULL";
+    }
 }

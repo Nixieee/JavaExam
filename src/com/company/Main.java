@@ -26,16 +26,16 @@ public class Main {
         table.addRows(row);
         Cells newRow1 = new Cells();
         newRow1.addCell(table.getColumn("name"),"ivan" );
-        newRow1.addCell(table.getColumn("surname"), "ivanov");
-        newRow1.addCell(table.getColumn("age"), "34");
+        newRow1.addCell(table.getColumn("surname"), "patkana");
+        newRow1.addCell(table.getColumn("age"), "33");
         row = new Row(newRow1.getCells());
         table.addRows(row);
         //System.out.println(table.toString());
         //System.out.println(table.describe());
         //System.out.println(table.select(1,"hui"));
-        table.update(0,"ivan",2,"33");
+        table.update(0,"ivan",2,"22");
         //table.delete(0,"shopara");
-        System.out.println(table.count(0,"shopara"));
+        //System.out.println(table.count(0,"shopara"));
         System.out.println(table.toString());
 
 

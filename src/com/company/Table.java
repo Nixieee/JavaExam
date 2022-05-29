@@ -63,16 +63,16 @@ public class Table {
         {
             try {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
-                    try {
                         if (r.values.containsKey(targetColumn)) {
-                            //TODO:INCORRECT EXCEPTION
-                            if(DataValidation.validate(targetColumn, targetValue))
-                            r.values.replace(targetColumn, targetValue);
+                            try {
+                                r.values.replace(targetColumn, DataValidation.validate(targetColumn, targetValue));
+                            }catch (Exception e){
+                                throw new Exception("Invalid data type!");
+                            }
                         }
-                    }catch (Exception e){
-                        throw new Exception("No such target column!");
+                       else System.out.println("No such target column");
                     }
-                }
+
             }catch (Exception e){
                 throw new Exception("No such search column and value!");
             }
@@ -93,7 +93,7 @@ public class Table {
         rows.removeAll(rowsToDelete);
     }
 
-    public int count(int searchColumnIndex,String searchValue) throws Exception {
+    public int count(int searchColumnIndex,String searchValue){
         Column searchColumn = listOfColumns.get(searchColumnIndex);
         int count = 0;
         for (Row r : rows) {
@@ -102,6 +102,20 @@ public class Table {
                 }
         }
         return count;
+    }
+
+    public void aggregate(int searchColumnIndex,String searchValue, int targetColumnIndex,String function)
+    {
+        Column searchColumn = listOfColumns.get(searchColumnIndex);
+        Column targetColumn = listOfColumns.get(targetColumnIndex);
+        for (Row r : rows) {
+            if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
+                switch(function)
+                {
+                    case "sum":
+                }
+            }
+        }
     }
 
     @Override
