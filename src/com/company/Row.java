@@ -3,10 +3,10 @@ package com.company;
 import java.util.*;
 
 public class Row {
-    LinkedHashMap<Column, Object> values;
+    LinkedHashMap<Column, Object> values = new LinkedHashMap<>();
 
-    public Row(LinkedHashMap<Column, Object> values) {
-        this.values = values;
+    public void addCell(Column column,String value) throws IncorrectDataTypeException {
+        values.put(column,DataValidation.validate(column,value));
     }
 
     @Override

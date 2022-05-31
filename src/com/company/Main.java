@@ -1,43 +1,37 @@
 package com.company;
-import java.util.*;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
         //Database database = new Database("test");
         //String n = System.console().readLine();
-        Table table = new Table();
-        Cells cells = new Cells();
+        Table table = new Table("Person");
         Column column = new Column("name", TypeOfData.STRING);
         Column surname = new Column("surname", TypeOfData.STRING);
         Column age = new Column("age", TypeOfData.INTEGER);
         table.addColumns(column);
         table.addColumns(surname);
         table.addColumns(age);
-        cells.addCell(table.getColumn("name"), "a");
-        cells.addCell(table.getColumn("surname"), "ivanov");
-        cells.addCell(table.getColumn("age"), "2");
-        Row row = new Row(cells.getCells());
+        Row row = new Row();
+        row.addCell(table.getColumn("name"), "a");
+        row.addCell(table.getColumn("surname"), "ivanov");
+        row.addCell(table.getColumn("age"), "2");
         table.addRows(row);
-        Cells newRow = new Cells();
-        newRow.addCell(table.getColumn("name"),"ivan" );
-        newRow.addCell(table.getColumn("surname"), "ivanov");
-        newRow.addCell(table.getColumn("age"), "22");
-        row = new Row(newRow.getCells());
-        table.addRows(row);
-        Cells newRow1 = new Cells();
-        newRow1.addCell(table.getColumn("name"),"ivan" );
-        newRow1.addCell(table.getColumn("surname"), "patkana");
-        newRow1.addCell(table.getColumn("age"), "33");
-        row = new Row(newRow1.getCells());
-        table.addRows(row);
+        Row newRow = new Row();
+        newRow.addCell(table.getColumn("name"), "georgi");
+        newRow.addCell(table.getColumn("surname"), "georgiev");
+        newRow.addCell(table.getColumn("age"), "55");
+        table.addRows(newRow);
         //System.out.println(table.toString());
         //System.out.println(table.describe());
-        //System.out.println(table.select(1,"hui"));
-        table.update(0,"ivan",2,"22");
+        //table.update(0,"ivan",2,"22");
         //table.delete(0,"shopara");
         //System.out.println(table.count(0,"shopara"));
-        System.out.println(table.toString());
-
+        //System.out.println(table.aggregate(0,"ivan",2,"product"));
+        //System.out.println(table.toString());
+XMLParser xmlParser = new XMLParser();
+xmlParser.XMLParse("database",table);
+        //System.out.println(table.getRows().get(0));
 
 
 

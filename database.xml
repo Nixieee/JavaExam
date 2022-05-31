@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><table name="Person"><row id="0"><column name="name">a</column><column name="surname">ivanov</column><column name="age">2</column></row><row id="1"><column name="name">georgi</column><column name="surname">georgiev</column><column name="age">55</column></row></table>

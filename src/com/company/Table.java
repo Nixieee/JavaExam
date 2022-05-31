@@ -3,8 +3,17 @@ package com.company;
 import java.util.*;
 
 public class Table {
+    private final String tableName;
     private final ArrayList<Column> listOfColumns = new ArrayList<>();
     private final ArrayList<Row> rows = new ArrayList<>();
+
+    public Table(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
 
     public void addColumns(Column column) throws ColumnException{
         if(this.listOfColumns.contains(column)){
@@ -104,18 +113,27 @@ public class Table {
         return count;
     }
 
-    public void aggregate(int searchColumnIndex,String searchValue, int targetColumnIndex,String function)
-    {
+    public Object aggregate(int searchColumnIndex,String searchValue, int targetColumnIndex,String function) throws Exception {
         Column searchColumn = listOfColumns.get(searchColumnIndex);
         Column targetColumn = listOfColumns.get(targetColumnIndex);
+        double sum = 0.0;
         for (Row r : rows) {
             if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
                 switch(function)
                 {
                     case "sum":
+                    {
+                        sum += Double.parseDouble(r.values.get(targetColumn).toString());
+                    }break;
+                    case "product":
+                    {
+                        sum = 1.0;
+                        sum *= Double.parseDouble(r.values.get(targetColumn).toString());
+                    }
                 }
             }
         }
+        return sum;
     }
 
     @Override
