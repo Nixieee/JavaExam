@@ -43,6 +43,7 @@ public class Table {
 
     public void addRows(Row row) {
         this.rows.add(row);
+
     }
 
     public Column getColumn(String columnName){
@@ -71,9 +72,9 @@ public class Table {
         return rows.toString();
     }
 
-    public LinkedHashSet<Row> select(int columnIndex, String value) throws Exception {
+    public LinkedHashSet<Row> select(String columnName, String value) throws Exception {
         LinkedHashSet<Row> list = new LinkedHashSet<>();
-        Column column = listOfColumns.get(columnIndex);
+        Column column = this.getColumn(columnName);
         for (Row r : rows) {
             if (r.values.containsKey(column) && r.values.containsValue(value)) {
                 list.add(r);
@@ -82,9 +83,9 @@ public class Table {
         return list;
     }
 
-    public void update(int searchColumnIndex, String searchValue, int targetColumnIndex, String targetValue){
-        Column searchColumn = listOfColumns.get(searchColumnIndex);
-        Column targetColumn = listOfColumns.get(targetColumnIndex);
+    public void update(String searchColumnName, String searchValue, String targetColumnName, String targetValue){
+        Column searchColumn = this.getColumn(searchColumnName);
+        Column targetColumn = this.getColumn(targetColumnName);
         for (Row r : rows) {
             try {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
@@ -103,8 +104,8 @@ public class Table {
         }
     }
 
-    public void delete(int searchColumnIndex, String searchValue) throws Exception {
-        Column searchColumn = listOfColumns.get(searchColumnIndex);
+    public void delete(String searchColumnName, String searchValue){
+        Column searchColumn = this.getColumn(searchColumnName);
         ArrayList<Row> rowsToDelete = new ArrayList<>();
         for (Row r : rows) {
             try {
@@ -112,14 +113,14 @@ public class Table {
                     rowsToDelete.add(r);
                 }
             } catch (Exception e) {
-                throw new Exception("No such row");
+                System.out.println("No such row!");
             }
         }
         rows.removeAll(rowsToDelete);
     }
 
-    public int count(int searchColumnIndex, String searchValue) {
-        Column searchColumn = listOfColumns.get(searchColumnIndex);
+    public int count(String searchColumnName, String searchValue) {
+        Column searchColumn = this.getColumn(searchColumnName);
         int count = 0;
         for (Row r : rows) {
             if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
@@ -129,10 +130,10 @@ public class Table {
         return count;
     }
 
-    public double aggregate(int searchColumnIndex, String searchValue, int targetColumnIndex, String function) {
+    public double aggregate(String searchColumnName, String searchValue, String targetColumnName, String function) {
         //TODO:Complete it pls!!
-        Column searchColumn = listOfColumns.get(searchColumnIndex);
-        Column targetColumn = listOfColumns.get(targetColumnIndex);
+        Column searchColumn = this.getColumn(searchColumnName);
+        Column targetColumn = this.getColumn(targetColumnName);
         double sum = 0.0;
         double product = 1.0;
         double minimum = Double.parseDouble(rows.get(0).values.get(targetColumn).toString());

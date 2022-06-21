@@ -11,18 +11,21 @@ public class Menu {
 
             switch (temp[0]) {
                 case "open":
+                    System.out.println("Successfully opened "+temp[1]);
                     submenu(temp[1]);
+
                     break;
                 case "help":
-                    System.out.println("The following commands are supported: " +
-                            "open <file> opens <file> " +
-                            "close closes currently opened file " +
-                            "save saves the currently open file" +
-                            "saveas <file> saves the currently open file in <file>" +
-                            "help prints this information  " +
-                            "exit exists the program");
+                    System.out.println("The following commands are supported: \n" +
+                            "open <file> opens <file> \n" +
+                            "close closes currently opened file \n" +
+                            "save saves the currently open file \n" +
+                            "saveas <file> saves the currently open file in <file> \n" +
+                            "help prints this information  \n" +
+                            "exit exits the program\n");
                     break;
                 case "exit":
+                    System.out.println("Exiting the program...");
                     return;
                 default:
                     System.out.println("Sorry, please enter valid command");
@@ -40,15 +43,15 @@ public class Menu {
             String []temp = input.nextLine().split(" ");
             switch (temp[0]) {
                 case "import":
-                    if(temp.length>1)
-                    database.addTableFromFile(temp[1]);
+                    if(temp.length>1) {
+                        database.addTableFromFile(temp[1]);
+                    }
                     else System.out.println("Too few arguments");
                     break;
                 case "createtable":
                     if(temp.length>1) {
                         Table newTable = new Table(temp[1]);
                         database.addTable(newTable);
-                        System.out.println("Successfully created table" + temp[1]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "showtables":
@@ -80,7 +83,7 @@ public class Menu {
                     if(temp.length>=4) {
                         Table table = database.getTable(temp[3]);
                         if (table != null)
-                            System.out.println(table.select(Integer.parseInt(temp[1]), temp[2]));
+                            System.out.println(table.select(temp[1], temp[2]));
                     }else System.out.println("Too few arguments");
                     break;
                 case "addcolumn":
@@ -88,6 +91,7 @@ public class Menu {
                         Table table = database.getTable(temp[1]);
                         if (table != null) {
                             table.addColumns(new Column (temp[2], TypeOfData.valueOf(temp[3].toUpperCase())));
+                            System.out.println("Successfully added column ");
                         }
                     }else System.out.println("Too few arguments");
                     break;
@@ -95,14 +99,16 @@ public class Menu {
                     if(temp.length>=6) {
                         Table table = database.getTable(temp[1]);
                         if (table != null)
-                            table.update(Integer.parseInt(temp[2]), temp[3], Integer.parseInt(temp[4]), temp[5]);
+                            table.update(temp[2], temp[3], temp[4], temp[5]);
+                        System.out.println("Successfully updated!");
                     }else System.out.println("Too few arguments");
                     break;
                 case "delete":
                     if(temp.length>=4) {
                         Table table = database.getTable(temp[1]);
                         if (table != null)
-                            table.delete(Integer.parseInt(temp[2]), temp[3]);
+                            table.delete(temp[2], temp[3]);
+                        System.out.println("Successfully deleted!");
                     }else System.out.println("Too few arguments");
                     break;
                 case "insert":
@@ -122,7 +128,10 @@ public class Menu {
                                 flag = row.addCell(table.getColumn(temp[i]), values[j]);
                                 j++;
                             }
-                            if (flag) table.addRows(row);
+                            if (flag) {
+                                table.addRows(row);
+                                System.out.println("Successfully inserted a new row!");
+                            }
                         }
                     }else System.out.println("Too few arguments");
                     break;
@@ -130,37 +139,43 @@ public class Menu {
                     if(temp.length>=4) {
                         Table tableOne = database.getTable(temp[1]);
                         Table tableTwo = database.getTable(temp[3]);
-                        Table innerJoinedTable = tableOne.innerJoin(tableOne, temp[2], tableTwo, temp[4]);
-                        database.addTable(innerJoinedTable);
-                        System.out.println(innerJoinedTable.getTableName());
+                        if(tableOne != null && tableTwo != null) {
+                            Table innerJoinedTable = tableOne.innerJoin(tableOne, temp[2], tableTwo, temp[4]);
+                            database.addTable(innerJoinedTable);
+                            System.out.println(innerJoinedTable.getTableName());
+                        }
                     }else System.out.println("Too few arguments");
                     break;
                 case "rename":
                     if(temp.length>=3) {
                         Table table = database.getTable(temp[1]);
                         table.rename(temp[1], temp[2]);
+                        System.out.println("Successfully renamed table"+temp[1]+" as: "+temp[2]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "count":
                     if(temp.length>=3) {
                         Table table = database.getTable(temp[1]);
-                        table.count(Integer.parseInt(temp[2]), temp[3]);
+                        table.count(temp[2], temp[3]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "aggregate":
                     if(temp.length>=5) {
                         Table table = database.getTable(temp[1]);
-                        table.aggregate(Integer.parseInt(temp[2]), temp[3], Integer.parseInt(temp[4]), temp[5]);
+                        table.aggregate(temp[2], temp[3], temp[4], temp[5]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "save":
                     database.createFile(databaseName);
+                    System.out.println("Successfully saved "+databaseName);
                     break;
                 case "saveas":
                     if(temp.length>1)
                     database.createFile(temp[1]);
+                    System.out.println("Successfully saved "+databaseName);
                     break;
                 case "close":
+                    System.out.println("Successfully closed "+databaseName);
                     return;
                 default:
                     System.out.println("Sorry, please enter valid command");

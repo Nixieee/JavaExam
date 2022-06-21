@@ -61,6 +61,7 @@ public class TableXMLParser {
             tableUri.setValue(table.getFileLocation());
             rootElement.setAttributeNode(tableUri);
             transformer.transform(source, result);
+            System.out.println("Successfully exported table "+table.getTableName() + " in: "+file.getAbsolutePath());
             // Output to console for testing
             // StreamResult consoleResult = new StreamResult(System.out);
             //transformer.transform(source, consoleResult);
@@ -104,9 +105,9 @@ public class TableXMLParser {
 
          return table;
         } catch (Exception e) {
-            e.printStackTrace();
+            //System.out.println("There is no such table!");
         }
-    throw new Exception("Couldn't create table");
+        return null;
     }
 }
 

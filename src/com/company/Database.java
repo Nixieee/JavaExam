@@ -29,7 +29,10 @@ public class Database {
 
     public void addTableFromFile(String fileLocation) throws Exception {
         if(!listofTables.contains(TableXMLParser.queryTable(fileLocation))) {
-            listofTables.add(TableXMLParser.queryTable(fileLocation));
+            if(TableXMLParser.queryTable(fileLocation)!=null) {
+                listofTables.add(TableXMLParser.queryTable(fileLocation));
+                System.out.println("Successfully imported table " + Objects.requireNonNull(TableXMLParser.queryTable(fileLocation)).getTableName());
+            }else System.out.println("Invalid file!");
         }else System.out.println("Table already exists!");
     }
 
