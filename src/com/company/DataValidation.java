@@ -1,8 +1,8 @@
 package com.company;
 
 public class DataValidation {
-    static public Object validate(Column column,String value) throws IncorrectDataTypeException {
-        if(value.isEmpty()){
+    static public Object validate(Column column,String value){
+        if(value == null || value.isEmpty()){
             return "NULL";
         }
         if(column.getTypeOfData().equals(TypeOfData.STRING))
@@ -13,19 +13,21 @@ public class DataValidation {
         {
             try {
                 Double val =  Double.valueOf(value);
+                return value;
             } catch(Exception e) {
-                throw new IncorrectDataTypeException("Incorrect data type");
+                System.out.println("Incorrect data type");
             }
-            return value;
+
         }
         else if(column.getTypeOfData().equals(TypeOfData.INTEGER))
         {
             try {
                 Integer val =  Integer.parseInt(value);
+                return value;
             } catch(Exception e) {
-                throw new IncorrectDataTypeException("Incorrect data type");
+                System.out.println("Incorrect data type");
             }
-           return value;
+
         }
     return "NULL";
     }
