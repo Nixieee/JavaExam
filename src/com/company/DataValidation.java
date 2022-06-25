@@ -29,6 +29,6 @@ public class DataValidation {
             }
 
         }
-    return "NULL";
+    return null;
     }
 }

@@ -35,8 +35,8 @@ public class Menu {
     }
 
     private void submenu(String databaseName) throws Exception {
-        Database database = new Database();
-        database.openFile(databaseName);
+        Database database = Database.initialize(databaseName);
+        database.openFile();
         Scanner input = new Scanner(System.in);
         do {
             input = new Scanner(System.in);
@@ -148,15 +148,14 @@ public class Menu {
                     break;
                 case "rename":
                     if(temp.length>=3) {
-                        Table table = database.getTable(temp[1]);
-                        table.rename(temp[1], temp[2]);
+                        database.rename(temp[1], temp[2]);
                         System.out.println("Successfully renamed table"+temp[1]+" as: "+temp[2]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "count":
                     if(temp.length>=3) {
                         Table table = database.getTable(temp[1]);
-                        table.count(temp[2], temp[3]);
+                        System.out.println(table.count(temp[2], temp[3]));
                     }else System.out.println("Too few arguments");
                     break;
                 case "aggregate":
@@ -173,6 +172,22 @@ public class Menu {
                     if(temp.length>1)
                     database.createFile(temp[1]);
                     System.out.println("Successfully saved "+databaseName);
+                    break;
+                case "help":
+                    System.out.println("import <file name>\n"+
+                            "showtables\n"+
+                            "describe <name>\n"+
+                            "print <name>\n"+
+                            "export <name> <file name>\n"+
+                            "select <column name> <value> <table name>\n"+
+                            "addcolumn <table name> <column name> <column type>\n"+
+                            "update <table name> <search column n> <search value> <target column n> <target value>\n"+
+                            "delete <table name> <search column n> <search value>\n"+
+                            "insert <table name> <column 1> .. <column n>\n"+
+                            "innerjoin <table 1> <column 1> <table 2> <column n2>\n"+
+                            "rename <old name> <new name>\n"+
+                            "count <table name> <search column n> <search value>\n"+
+                            "aggregate <table name> <search column n> <search value> <target column n> <operation>\n");
                     break;
                 case "close":
                     System.out.println("Successfully closed "+databaseName);

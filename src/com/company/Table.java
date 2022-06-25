@@ -72,7 +72,7 @@ public class Table {
         return rows.toString();
     }
 
-    public LinkedHashSet<Row> select(String columnName, String value) throws Exception {
+    public LinkedHashSet<Row> select(String columnName, String value){
         LinkedHashSet<Row> list = new LinkedHashSet<>();
         Column column = this.getColumn(columnName);
         for (Row r : rows) {
@@ -130,16 +130,14 @@ public class Table {
         return count;
     }
 
-    public double aggregate(String searchColumnName, String searchValue, String targetColumnName, String function) {
-        //TODO:Complete it pls!!
+    public void aggregate(String searchColumnName, String searchValue, String targetColumnName, String function) {
         Column searchColumn = this.getColumn(searchColumnName);
         Column targetColumn = this.getColumn(targetColumnName);
         double sum = 0.0;
         double product = 1.0;
         double minimum = Double.parseDouble(rows.get(0).values.get(targetColumn).toString());
         double maximum = Double.parseDouble(rows.get(0).values.get(targetColumn).toString());
-        if(searchColumn.getTypeOfData() == TypeOfData.INTEGER || searchColumn.getTypeOfData() == TypeOfData.DOUBLE &&
-                targetColumn.getTypeOfData() == TypeOfData.INTEGER || targetColumn.getTypeOfData() == TypeOfData.DOUBLE ) {
+        if(targetColumn.getTypeOfData() == TypeOfData.INTEGER || targetColumn.getTypeOfData() == TypeOfData.DOUBLE ) {
             for (Row r : rows) {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
                     switch (function) {
@@ -170,29 +168,8 @@ public class Table {
             System.out.println(sum);
         }
         else System.out.println("Not numbers!");
-        return 0.0;
+        //return 0.0;
     }
-
-    public void rename(String oldName, String newName) {
-        boolean flag = false;
-        boolean error = true;
-        for (Table t : Database.listofTables) {
-            if (t.getTableName().equals(newName)) {
-                flag = true;
-                break;
-            }
-        }
-        for (Table t : Database.listofTables) {
-            if (!flag && t.getTableName().equals(oldName)) {
-                t.setTableName(newName);
-                error = false;
-            }
-        }
-        if (error) {
-            System.out.println("There is a table with that name already!");
-        }
-    }
-
 
 
     public Table innerJoin(Table tableOne,String tableOneColumnName,Table tableTwo,String tableTwoColumnName)

@@ -16,10 +16,11 @@ import org.w3c.dom.Node;
 
 public class Database {
     private String name;
-    static ArrayList<Table> listofTables = new ArrayList<>();
+    private ArrayList<Table> listofTables = new ArrayList<>();
+    static Database instance;
 
 
-    public void setName(String name){
+    private Database(String name) {
         this.name = name;
     }
 
@@ -27,13 +28,32 @@ public class Database {
         listofTables.add(table);
     }
 
-    public void addTableFromFile(String fileLocation) throws Exception {
-        if(!listofTables.contains(TableXMLParser.queryTable(fileLocation))) {
-            if(TableXMLParser.queryTable(fileLocation)!=null) {
-                listofTables.add(TableXMLParser.queryTable(fileLocation));
-                System.out.println("Successfully imported table " + Objects.requireNonNull(TableXMLParser.queryTable(fileLocation)).getTableName());
-            }else System.out.println("Invalid file!");
-        }else System.out.println("Table already exists!");
+
+    public static Database getInstance(){
+        return instance;
+    }
+
+    public static Database initialize(String name){
+        instance = new Database(name);
+        return instance;
+    }
+
+    public void close()
+    {
+        instance = null;
+    }
+
+    public void addTableFromFile(String fileLocation) {
+        try {
+            if (!listofTables.contains(TableXMLParser.queryTable(fileLocation))) {
+                if (TableXMLParser.queryTable(fileLocation) != null) {
+                    listofTables.add(TableXMLParser.queryTable(fileLocation));
+                    System.out.println("Successfully imported table " + Objects.requireNonNull(TableXMLParser.queryTable(fileLocation)).getTableName());
+                } else System.out.println("Invalid file!");
+            } else System.out.println("Table already exists!");
+        }catch (Exception e) {
+            throw new RuntimeException("Cannot add table from file", e);
+        }
     }
 
     public void getTables(){
@@ -42,7 +62,7 @@ public class Database {
       }
     }
 
-    public Table getTable(String tableName) throws Exception {
+    public Table getTable(String tableName){
         for(Table t : listofTables){
             if (t.getTableName().equals(tableName)){
                 return t;
@@ -54,6 +74,26 @@ public class Database {
 
     public String getName() {
         return name;
+    }
+
+    public void rename(String oldName, String newName) {
+        boolean flag = false;
+        boolean error = true;
+        for (Table t : listofTables) {
+            if (t.getTableName().equals(newName)) {
+                flag = true;
+                break;
+            }
+        }
+        for (Table t : listofTables) {
+            if (!flag && t.getTableName().equals(oldName)) {
+                t.setTableName(newName);
+                error = false;
+            }
+        }
+        if (error) {
+            System.out.println("There is a table with that name already!");
+        }
     }
 
     public void createFile(String fileName){
@@ -101,9 +141,9 @@ public class Database {
         listofTables.add(table);
     }
 
-    public void openFile(String fileLocation){
+    public void openFile(){
         try {
-            File inputFile = new File(fileLocation);
+            File inputFile = new File(this.name);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
