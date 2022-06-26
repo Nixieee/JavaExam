@@ -1,7 +1,7 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
-import com.company.Table;
+import com.company.database.Database;
+import com.company.table.Table;
 
 public class DescribeDatabaseCommand extends DatabaseCommand{
 

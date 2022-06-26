@@ -1,4 +1,4 @@
-package com.company;
+package com.company.xml.io;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -7,6 +7,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import com.company.table.Column;
+import com.company.table.Row;
+import com.company.table.Table;
+import com.company.table.TypeOfData;
 import org.w3c.dom.*;
 
 import java.io.File;
@@ -15,7 +19,7 @@ import java.util.Map;
 
 public class TableXMLParser {
 
-    public static void XMLParse(Table table,String fileName) {
+    public static void XMLParse(Table table, String fileName) {
         ArrayList<Row> rows = table.getRows();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -61,7 +65,6 @@ public class TableXMLParser {
             tableUri.setValue(table.getFileLocation());
             rootElement.setAttributeNode(tableUri);
             transformer.transform(source, result);
-            System.out.println("Successfully exported table "+table.getTableName() + " in: "+file.getAbsolutePath());
             // Output to console for testing
             // StreamResult consoleResult = new StreamResult(System.out);
             //transformer.transform(source, consoleResult);

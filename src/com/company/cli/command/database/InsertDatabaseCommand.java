@@ -1,9 +1,9 @@
 package com.company.cli.command.database;
 
-import com.company.Column;
-import com.company.Database;
-import com.company.Row;
-import com.company.Table;
+import com.company.table.Column;
+import com.company.database.Database;
+import com.company.table.Row;
+import com.company.table.Table;
 
 import java.util.Scanner;
 

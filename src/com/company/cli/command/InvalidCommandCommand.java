@@ -14,7 +14,7 @@ public class InvalidCommandCommand extends Command {
         if (commandName.trim().equals("")) {
             System.out.println("Please input a command.");
         } else {
-            System.out.printf("%s command doesn't exist!%n", commandName);
+            System.out.printf(commandName+" command doesn't exist!", commandName);
         }
     }
 }

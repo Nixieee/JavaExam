@@ -1,7 +1,5 @@
 package com.company.cli.command;
 
-import com.company.Database;
-
 public abstract class Command {
 
     protected final int minimumArgumentCount;
@@ -19,7 +17,7 @@ public abstract class Command {
 
     private boolean areArgumentsValid(String[] args) {
         if (args.length < minimumArgumentCount) {
-            System.out.printf("Not enough arguments: specified %d, required %d%n", args.length, minimumArgumentCount);
+            System.out.println("Not enough arguments: specified "+args.length+" , required "+minimumArgumentCount);
             return false;
         }
         return true;

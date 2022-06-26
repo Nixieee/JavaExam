@@ -1,4 +1,6 @@
-package com.company;
+package com.company.main;
+
+import com.company.cli.shell.Menu2;
 
 public class Main {
 

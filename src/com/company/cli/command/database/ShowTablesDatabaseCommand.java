@@ -1,6 +1,7 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
+import com.company.database.Database;
+import com.company.table.Table;
 
 public class ShowTablesDatabaseCommand extends DatabaseCommand{
 
@@ -10,6 +11,10 @@ public class ShowTablesDatabaseCommand extends DatabaseCommand{
 
     @Override
     protected void run(String[] args) {
-        Database.getInstance().getTables();
+        for(Table t :Database.getInstance().getTables())
+        {
+            System.out.println(t.getTableName());
+        }
+
     }
 }

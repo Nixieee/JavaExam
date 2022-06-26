@@ -1,4 +1,4 @@
-package com.company;
+package com.company.cli.shell;
 
 import com.company.cli.command.Command;
 import com.company.cli.command.HelpCommand;
@@ -41,7 +41,8 @@ public class Menu2 {
         knownCommands.put("showtables", new ShowTablesDatabaseCommand());
         knownCommands.put("describe", new DescribeDatabaseCommand());
         knownCommands.put("print", new PrintDatabaseCommand());
-        knownCommands.put("export", new ExportDatabaseCommand());
+        knownCommands.put("delete",new DeleteDatabaseCommand());
+        knownCommands.put("export", new ExportTableDatabaseCommand());
         knownCommands.put("select", new SelectDatabaseCommand());
         knownCommands.put("addcolumn", new AddColumnDatabaseCommand());
         knownCommands.put("update", new UpdateDatabaseCommand());

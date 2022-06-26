@@ -1,7 +1,7 @@
-package com.company;
+package com.company.table;
 
 public class DataValidation {
-    static public Object validate(Column column,String value){
+    static public Object validate(Column column, String value){
         if(value == null || value.isEmpty()){
             return "NULL";
         }

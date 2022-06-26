@@ -1,7 +1,8 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
-import com.company.Table;
+import com.company.database.Database;
+import com.company.table.Table;
+import com.company.table.TableOperations;
 
 public class UpdateDatabaseCommand extends DatabaseCommand{
     public UpdateDatabaseCommand() {
@@ -12,7 +13,7 @@ public class UpdateDatabaseCommand extends DatabaseCommand{
     protected void run(String[] args) {
         Table table = Database.getInstance().getTable(args[0]);
         if (table != null)
-            table.update(args[1], args[2], args[3], args[4]);
+            TableOperations.update(table,args[1], args[2], args[3], args[4]);
         System.out.println("Successfully updated!");
     }
 }

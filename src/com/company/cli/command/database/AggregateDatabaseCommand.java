@@ -1,7 +1,8 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
-import com.company.Table;
+import com.company.database.Database;
+import com.company.table.Table;
+import com.company.table.TableOperations;
 
 public class AggregateDatabaseCommand extends DatabaseCommand{
     public AggregateDatabaseCommand() {
@@ -11,6 +12,6 @@ public class AggregateDatabaseCommand extends DatabaseCommand{
     @Override
     protected void run(String[] args) {
         Table table = Database.getInstance().getTable(args[0]);
-        table.aggregate(args[1], args[2], args[3], args[4]);
+        TableOperations.aggregate(table,args[1], args[2], args[3], args[4]);
     }
 }

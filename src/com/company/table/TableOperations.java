@@ -1,80 +1,14 @@
-package com.company;
+package com.company.table;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
-public class Table {
-    private String tableName;
-    private String fileLocation;
-    private final ArrayList<Column> listOfColumns = new ArrayList<>();
-    private final ArrayList<Row> rows = new ArrayList<>();
+public class TableOperations {
 
-    public Table(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
-    }
-
-    public String getFileLocation() {
-        return fileLocation;
-    }
-
-    public void addColumns(Column column){
-        if (this.listOfColumns.contains(column)) {
-            System.out.println("Column already exists!");
-        } else {
-            this.listOfColumns.add(column);
-            if (!rows.isEmpty()) {
-                for (Row r : rows) {
-                    r.addCell(column, null);
-                }
-            }
-        }
-    }
-
-    public void addRows(Row row) {
-        this.rows.add(row);
-
-    }
-
-    public Column getColumn(String columnName){
-        for (Column c : listOfColumns) {
-            if (c.getColumnName().equals(columnName)) {
-                return c;
-            }
-        }
-        System.out.println("There is no such column!");
-        return null;
-    }
-
-    public ArrayList<Column> getListOfColumns() {
-        return listOfColumns;
-    }
-
-    public ArrayList<Row> getRows() {
-        return rows;
-    }
-
-    public String describe() {
-        return listOfColumns.toString();
-    }
-
-    public String print() {
-        return rows.toString();
-    }
-
-    public LinkedHashSet<Row> select(String columnName, String value){
+    static public LinkedHashSet<Row> select(Table table, String columnName, String value){
         LinkedHashSet<Row> list = new LinkedHashSet<>();
-        Column column = this.getColumn(columnName);
+        Column column = table.getColumn(columnName);
+        ArrayList<Row> rows = table.getRows();
         for (Row r : rows) {
             if (r.values.containsKey(column) && r.values.containsValue(value)) {
                 list.add(r);
@@ -83,9 +17,10 @@ public class Table {
         return list;
     }
 
-    public void update(String searchColumnName, String searchValue, String targetColumnName, String targetValue){
-        Column searchColumn = this.getColumn(searchColumnName);
-        Column targetColumn = this.getColumn(targetColumnName);
+    static public void update(Table table,String searchColumnName, String searchValue, String targetColumnName, String targetValue){
+        Column searchColumn = table.getColumn(searchColumnName);
+        Column targetColumn = table.getColumn(targetColumnName);
+        ArrayList<Row> rows = table.getRows();
         for (Row r : rows) {
             try {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
@@ -104,9 +39,10 @@ public class Table {
         }
     }
 
-    public void delete(String searchColumnName, String searchValue){
-        Column searchColumn = this.getColumn(searchColumnName);
+    static public void delete(Table table,String searchColumnName, String searchValue){
+        Column searchColumn = table.getColumn(searchColumnName);
         ArrayList<Row> rowsToDelete = new ArrayList<>();
+        ArrayList<Row> rows = table.getRows();
         for (Row r : rows) {
             try {
                 if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
@@ -116,11 +52,12 @@ public class Table {
                 System.out.println("No such row!");
             }
         }
-        rows.removeAll(rowsToDelete);
+        table.getRows().removeAll(rowsToDelete);
     }
 
-    public int count(String searchColumnName, String searchValue) {
-        Column searchColumn = this.getColumn(searchColumnName);
+    static public int count(Table table,String searchColumnName, String searchValue) {
+        Column searchColumn = table.getColumn(searchColumnName);
+        ArrayList<Row> rows = table.getRows();
         int count = 0;
         for (Row r : rows) {
             if (r.values.containsKey(searchColumn) && r.values.containsValue(searchValue)) {
@@ -130,9 +67,10 @@ public class Table {
         return count;
     }
 
-    public void aggregate(String searchColumnName, String searchValue, String targetColumnName, String function) {
-        Column searchColumn = this.getColumn(searchColumnName);
-        Column targetColumn = this.getColumn(targetColumnName);
+    static public void aggregate(Table table,String searchColumnName, String searchValue, String targetColumnName, String function) {
+        Column searchColumn = table.getColumn(searchColumnName);
+        Column targetColumn = table.getColumn(targetColumnName);
+        ArrayList<Row> rows = table.getRows();
         double sum = 0.0;
         double product = 1.0;
         double minimum = Double.parseDouble(rows.get(0).values.get(targetColumn).toString());
@@ -172,43 +110,22 @@ public class Table {
     }
 
 
-    public Table innerJoin(Table tableOne,String tableOneColumnName,Table tableTwo,String tableTwoColumnName)
+    static public Table innerJoin(Table tableOne,String tableOneColumnName,Table tableTwo,String tableTwoColumnName)
     {
         Column tableOneColumn = tableOne.getColumn(tableOneColumnName);
         Column tableTwoColumn = tableTwo.getColumn(tableTwoColumnName);
         Table innerJoin = new Table(tableOne.getTableName()+tableTwo.getTableName());
         innerJoin.addColumns(tableOneColumn);
         innerJoin.addColumns(tableTwoColumn);
-        for(Row rOne: tableOne.rows)
+        for(Row rOne: tableOne.getRows())
         {
-          for(Row rTwo: tableTwo.rows)
-          {
-              if(rOne.values.get(tableOneColumn).equals(rTwo.values.get(tableTwoColumn))){
-                  innerJoin.addRows(rOne);
-              };
-          }
+            for(Row rTwo: tableTwo.getRows())
+            {
+                if(rOne.values.get(tableOneColumn).equals(rTwo.values.get(tableTwoColumn))){
+                    innerJoin.addRows(rOne);
+                };
+            }
         }
-      return innerJoin;
-    }
-
-    @Override
-    public String toString() {
-        return "Table{" +
-                "listOfColumns=" + listOfColumns +
-                ", rows=" + rows +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Table table = (Table) o;
-        return Objects.equals(tableName, table.tableName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tableName);
+        return innerJoin;
     }
 }

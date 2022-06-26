@@ -1,9 +1,9 @@
 package com.company.cli.command.database;
 
-import com.company.Column;
-import com.company.Database;
-import com.company.Table;
-import com.company.TypeOfData;
+import com.company.table.Column;
+import com.company.database.Database;
+import com.company.table.Table;
+import com.company.table.TypeOfData;
 
 public class AddColumnDatabaseCommand extends DatabaseCommand{
     public AddColumnDatabaseCommand() {

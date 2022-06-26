@@ -1,6 +1,6 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
+import com.company.database.Database;
 import com.company.cli.command.Command;
 
 public abstract class DatabaseCommand extends Command {

@@ -1,6 +1,6 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
+import com.company.database.Database;
 
 public class ImportTableCommand extends DatabaseCommand {
 

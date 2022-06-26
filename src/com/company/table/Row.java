@@ -1,8 +1,9 @@
-package com.company;
+package com.company.table;
+
 import java.util.*;
 
 public class Row {
-    LinkedHashMap<Column, Object> values = new LinkedHashMap<>();
+    public LinkedHashMap<Column, Object> values = new LinkedHashMap<>();
 
     public boolean addCell(Column column,String value){
         if(column!=null) {

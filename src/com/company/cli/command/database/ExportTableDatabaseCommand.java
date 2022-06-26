@@ -1,11 +1,11 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
-import com.company.Table;
-import com.company.TableXMLParser;
+import com.company.database.Database;
+import com.company.table.Table;
+import com.company.xml.io.TableXMLParser;
 
-public class ExportDatabaseCommand extends DatabaseCommand{
-    public ExportDatabaseCommand() {
+public class ExportTableDatabaseCommand extends DatabaseCommand{
+    public ExportTableDatabaseCommand() {
         super(2);
     }
 

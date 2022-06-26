@@ -1,7 +1,8 @@
 package com.company.cli.command.database;
 
-import com.company.Database;
-import com.company.Table;
+import com.company.database.Database;
+import com.company.table.Table;
+import com.company.table.TableOperations;
 
 public class CountDatabaseCommand extends DatabaseCommand{
     public CountDatabaseCommand() {
@@ -11,6 +12,6 @@ public class CountDatabaseCommand extends DatabaseCommand{
     @Override
     protected void run(String[] args) {
         Table table = Database.getInstance().getTable(args[0]);
-        System.out.println(table.count(args[1], args[2]));
+        TableOperations.count(table,args[1], args[2]);
     }
 }

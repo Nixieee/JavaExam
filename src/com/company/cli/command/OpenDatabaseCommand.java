@@ -1,6 +1,7 @@
 package com.company.cli.command;
 
-import com.company.Database;
+import com.company.database.Database;
+import com.company.xml.io.DatabaseXMLParser;
 
 public class OpenDatabaseCommand extends Command {
 
@@ -13,7 +14,8 @@ public class OpenDatabaseCommand extends Command {
         String databaseName = args[0];
         if(Database.getInstance() == null) {
             Database database = Database.initialize(databaseName);
-            database.openFile();
+            DatabaseXMLParser.openFile(database);
+            System.out.println("Successfully opened "+databaseName);
         }
         else System.out.println("Database already opened!");
 

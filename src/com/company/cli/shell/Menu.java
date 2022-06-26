@@ -1,4 +1,9 @@
-package com.company;
+package com.company.cli.shell;
+import com.company.database.Database;
+import com.company.table.*;
+import com.company.xml.io.DatabaseXMLParser;
+import com.company.xml.io.TableXMLParser;
+
 import java.util.Scanner;
 public class Menu {
 
@@ -36,7 +41,7 @@ public class Menu {
 
     private void submenu(String databaseName) throws Exception {
         Database database = Database.initialize(databaseName);
-        database.openFile();
+        DatabaseXMLParser.openFile(database);
         Scanner input = new Scanner(System.in);
         do {
             input = new Scanner(System.in);
@@ -83,14 +88,14 @@ public class Menu {
                     if(temp.length>=4) {
                         Table table = database.getTable(temp[3]);
                         if (table != null)
-                            System.out.println(table.select(temp[1], temp[2]));
+                            System.out.println(TableOperations.select(table,temp[1], temp[2]));
                     }else System.out.println("Too few arguments");
                     break;
                 case "addcolumn":
                     if(temp.length>=4) {
                         Table table = database.getTable(temp[1]);
                         if (table != null) {
-                            table.addColumns(new Column (temp[2], TypeOfData.valueOf(temp[3].toUpperCase())));
+                            table.addColumns(new Column(temp[2], TypeOfData.valueOf(temp[3].toUpperCase())));
                             System.out.println("Successfully added column ");
                         }
                     }else System.out.println("Too few arguments");
@@ -99,7 +104,7 @@ public class Menu {
                     if(temp.length>=6) {
                         Table table = database.getTable(temp[1]);
                         if (table != null)
-                            table.update(temp[2], temp[3], temp[4], temp[5]);
+                            TableOperations.update(table,temp[2], temp[3], temp[4], temp[5]);
                         System.out.println("Successfully updated!");
                     }else System.out.println("Too few arguments");
                     break;
@@ -107,7 +112,7 @@ public class Menu {
                     if(temp.length>=4) {
                         Table table = database.getTable(temp[1]);
                         if (table != null)
-                            table.delete(temp[2], temp[3]);
+                            TableOperations.delete(table,temp[2], temp[3]);
                         System.out.println("Successfully deleted!");
                     }else System.out.println("Too few arguments");
                     break;
@@ -140,7 +145,7 @@ public class Menu {
                         Table tableOne = database.getTable(temp[1]);
                         Table tableTwo = database.getTable(temp[3]);
                         if(tableOne != null && tableTwo != null) {
-                            Table innerJoinedTable = tableOne.innerJoin(tableOne, temp[2], tableTwo, temp[4]);
+                            Table innerJoinedTable = TableOperations.innerJoin(tableOne, temp[2], tableTwo, temp[4]);
                             database.addTable(innerJoinedTable);
                             System.out.println(innerJoinedTable.getTableName());
                         }
@@ -155,22 +160,22 @@ public class Menu {
                 case "count":
                     if(temp.length>=3) {
                         Table table = database.getTable(temp[1]);
-                        System.out.println(table.count(temp[2], temp[3]));
+                        System.out.println(TableOperations.count(table,temp[2], temp[3]));
                     }else System.out.println("Too few arguments");
                     break;
                 case "aggregate":
                     if(temp.length>=5) {
                         Table table = database.getTable(temp[1]);
-                        table.aggregate(temp[2], temp[3], temp[4], temp[5]);
+                        TableOperations.aggregate(table,temp[2], temp[3], temp[4], temp[5]);
                     }else System.out.println("Too few arguments");
                     break;
                 case "save":
-                    database.createFile(databaseName);
+                    DatabaseXMLParser.createFile(database,databaseName);
                     System.out.println("Successfully saved "+databaseName);
                     break;
                 case "saveas":
                     if(temp.length>1)
-                    database.createFile(temp[1]);
+                    DatabaseXMLParser.createFile(database,temp[1]);
                     System.out.println("Successfully saved "+databaseName);
                     break;
                 case "help":
